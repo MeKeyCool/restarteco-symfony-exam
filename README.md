@@ -9,16 +9,20 @@ this is a technical test for symfony
 # Installation
 
 ## build and up docker: 
-- build: `docker-composer compose build`
-- up: `docker-compose up -d`
+- build: `docker-compose build` *(or `docker compose build` for more recent docker version)*
+- up: `docker-compose up -d --remove-orphans` *(`docker compose up -d --remove-orphans`)*
+
+> :point_up: If you need both (for first install) : `docker-compose up -d --remove-orphans --build` *(`docker compose up -d --remove-orphans --build`)*
   
 ## enter in docker:
 
-`docker-compose exec app_exam bash`
+`docker-compose exec app_exam bash` *(`docker compose exec app_exam bash`)*
 
 ## Install project:
 
 `make install`
+
+> :point_up: to run this command without entering docker container : `docker-compose exec app_exam make install` *(`docker compose exec app_exam make install`)*
 
 ## Usage
 
