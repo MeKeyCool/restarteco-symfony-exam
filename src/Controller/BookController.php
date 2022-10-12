@@ -4,25 +4,28 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class BookController extends AbstractController
 {
     /**
-     * return all namme of books in json format
-     *
+     * return all books' name in json format
      */
     #[Route('/books/list', name: 'list-of-my-books', methods: ['POST'], format: 'json')]
-    public function book()
+    public function book(EntityManagerInterface $entityManager)
     {
-        $book = $this->container->get('doctrine.orm.default_entity_manager')->getRepository("App\Entity\Book")->findBy(['id' => 1]);
+        $book_list = $entityManager->getRepository("App\Entity\Book")->findAll();
 
-        $template = $this->container->get('twig')->load('book/index.html.twig');
-
-        return $template->render([
-            'return' => json_encode([
-                'data' => json_encode($book[0]['name'])
-            ]),
-        ]);
+        // @TODO current response filtering is forced by `Book::jsonSerialize()` 
+        // method but it isn't a valid long terme solution 
+        return new JsonResponse(
+            [
+                'result' => [
+                    'data' => $book_list
+                ],
+            ]
+        );
     }
 
     /**

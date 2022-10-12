@@ -9,7 +9,7 @@ use Overblog\GraphQLBundle\Annotation as GQL;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[GQL\Type(name: "Book")]
-class Book
+class Book implements \JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -52,5 +52,15 @@ class Book
         $this->resume = $resume;
 
         return $this;
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function jsonSerialize() {
+        return [
+            'name' => $this->title,
+        ];
     }
 }

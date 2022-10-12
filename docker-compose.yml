@@ -1,5 +1,7 @@
 version: "3.7"
+
 services:
+
   app_exam:
     build:
       context: .
@@ -13,6 +15,7 @@ services:
     ports:
       - target: 80
         published: 8080
+
   exam_db:
     image: mariadb:10.9.3
     ports:
@@ -30,8 +33,10 @@ services:
       test: [ "CMD", "mysqladmin", "ping", "--silent" ]
     networks:
       - symfony
+
 networks:
   symfony:
+
 volumes:
   persistent:
   mysql_data:
